@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<style>
+.center {
+    margin: auto;
+    width: 250px;
+    border: none; 
+    padding: 10px; 
+    height:400px;
+  border-radius:30px;
+  background-color:skyblue;
+}
+.header{
+  text-align: center;
+  margin-bottom:30px;
+}
+p{
+  font-family:'Courier New',monoscope;
+  color:white;
+  font-size:20px;
+}
+.res{
+  color:black;
+  font-style:italic;
+}
+
+
+</style>
+<body>
+ <body>
+  <div class="header">
+  <input type="text" placeholder="search city" id="city">
+  <input type="submit" value="Go" id="btn">
+  </div>
+  <div class="center">
+    <p>Temperature</p>
+    <p id="tempRes" class="res"></p>
+    <p>Pressure</p>
+    <p id="presRes" class="res"></p>
+    <p>Humidity</p>
+    <p id="humdRes" class="res"></p>
+    <p>Wind</p>
+    <p id="windRes" class="res"></p>
+  </div>
+</body>
+</body>
+<script>
+var btn=document.getElementById("btn");// Replace with the 
+
+ function getWeather() {
+  const apiKey = '3594ba2b5ef781b8e24658f946146c0a';
+  const cityNameInput = document.getElementById("city"); 
+  const cityName = cityNameInput.value; 
+  const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}`;
+
+  fetch(apiUrl)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      // Process the weather data
+      const temperature = (data.main.temp-273.15).toFixed(2);
+      const description = data.weather[0].description;
+    const pressure=data.main.pressure;
+    const humidity=data.main.humidity;
+    const wind=data.wind.speed;
+    document.getElementById("tempRes").innerHTML=temperature+"'c";
+    document.getElementById("presRes").innerHTML=pressure+" hPa";
+    document.getElementById("humdRes").innerHTML=humidity+" %";
+    document.getElementById("windRes").innerHTML=wind+" m/s";
+   
+    })
+}
+
+btn.addEventListener('click',getWeather);
+</script>
+</html>
